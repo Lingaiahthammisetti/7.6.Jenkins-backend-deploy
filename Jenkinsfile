@@ -53,4 +53,5 @@ pipeline {
             echo 'I will always say Hello failure!'
         } 
     }
+    }
 }
