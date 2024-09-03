@@ -22,7 +22,7 @@ resource "null_resource" "backend" {
         type = "ssh"
         user = "ec2-user"
         password = "DevOps321"
-        host = module.backend.private_id
+        host = module.backend.private_ip
     }
     provisioner "file" {
         source = "${var.common_tags.Component}.sh"
@@ -55,7 +55,7 @@ resource "null_resource" "backend_delete" {
         type = "ssh"
         user = "ec2-user"
         password = "DevOps321"
-        host = module.backend.private_id
+        host = module.backend.private_ip
     }
       provisioner "local-exec" {
         command = "aws ec2 terminate-instances --instance-ids ${module.backend.id}"
@@ -111,7 +111,7 @@ resource "aws_lb_target_group" "backend" {
 resource "aws_launch_template" "backend" {
     name = "${var.project_name}-${var.environment}-${var.common_tags.Component}"
     image_id = aws_ami_from_instance.backend.id
-    instance_initiated_shutdown_behaviour = "terminate"
+    instance_initiated_shutdown_behavior = "terminate"
     instance_type = "t3.micro"
     update_default_version = true
     vpc_security_group_ids = [data.aws_ssm_parameter.backend_sg_id.value]

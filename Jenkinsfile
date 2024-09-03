@@ -13,7 +13,7 @@ pipeline {
      }
     environment {
         def appVersion = '' //variable declaration here.
-        nexusURl = '34.238.38.193:8081'
+        nexusURl = 'nexus.lingaiah.online:8081'
     }
     stages {
         stage('Print the version') {
