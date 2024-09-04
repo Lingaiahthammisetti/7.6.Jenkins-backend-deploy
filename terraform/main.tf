@@ -77,37 +77,7 @@ resource "aws_lb_target_group" "backend" {
         matcher  = "200"
     }
 }
-# resource "aws_lb_listener" "http" {
-#     load_balancer_arn = aws_lb.app_alb.arn
-#     port              = "80"
-#     protocol          = "HTTP"
-#     default_action {
-#         type = "fixed-response"
-#         fixed_response {
-#             content_type = "test/html"
-#             message_body = "<h1>This is fixed response from APP ALB</h1>"
-#             status_code  = "200"
-#         }
-#     }
-# }
-# module "records" {
-#   source  = "terraform-aws-modules/route53/aws//modules/records"
-#   version = "~> 2.0"
-#   zone_name = var.zone_name
 
-#     records = [
-#         {
-#             name = "*.app-${var.environment}"
-#             type = "A"
-#             ttl = 1
-#             allow_overwrite = true
-#             records = {
-#                 name = aws_lb.app_alb.dns_name
-#                 zone_id = aws_lb.app_alb.zone_id
-#         }
-#         }
-#     ]
-# }
 resource "aws_launch_template" "backend" {
     name = "${var.project_name}-${var.environment}-${var.common_tags.Component}"
     image_id = aws_ami_from_instance.backend.id
