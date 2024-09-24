@@ -7,10 +7,10 @@ terraform {
   }
 
 backend "s3" {
-  bucket = "lingadevops-remote-state"
-  key = "expense-dev-backend"
+  bucket = "expense-infra-dev-remote-state"
+  key = "tf-jenkins-backend-deploy"
   region = "us-east-1"
-  dynamodb_table = "lingaiah-locking"
+  dynamodb_table="expense-infra-dev-remote-state-locking"
   }
 }
 
