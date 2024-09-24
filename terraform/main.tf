@@ -23,10 +23,12 @@ resource "null_resource" "backend" {
         user = "ec2-user"
         password = "DevOps321"
         host = module.backend.private_ip
+        timeout     = "4m"
     }
     provisioner "file" {
         source = "${var.common_tags.Component}.sh"
         destination = "/tmp/${var.common_tags.Component}.sh"
+        
     }
     provisioner "remote-exec" {
         inline = [
