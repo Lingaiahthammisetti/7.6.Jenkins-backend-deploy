@@ -15,6 +15,6 @@ variable "common_tags" {
 variable "zone_name" {
   default = "lingaiah.online"
   }
-  variable "app_Version" {
-    
+  variable "app_version" {
+     
   }
