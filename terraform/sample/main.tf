@@ -33,7 +33,6 @@ resource "null_resource" "backend" {
     provisioner "file" {
     source     = "${var.common_tags.Component}.sh"
     destination = "/tmp/${var.common_tags.Component}.sh"
-    
   }
    provisioner "remote-exec" {
     inline = [
@@ -81,7 +80,7 @@ resource "aws_lb_target_group" "backend" {
   vpc_id   = data.aws_ssm_parameter.vpc_id.value
 
     health_check {
-    path                = "/health"
+    path                = "/"
     port                = 8080
     protocol            = "HTTP"
     healthy_threshold   = 2
