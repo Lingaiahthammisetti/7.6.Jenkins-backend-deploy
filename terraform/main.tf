@@ -29,7 +29,6 @@ resource "null_resource" "backend" {
     user     = "ec2-user"
     password = "DevOps321"
     host     = module.backend.private_ip
-    timeout     = "5m"  # Increase the timeout to 5 minutes
   }
     provisioner "file" {
     source     = "${var.common_tags.Component}.sh"
