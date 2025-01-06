@@ -29,6 +29,7 @@ resource "null_resource" "backend" {
     user     = "ec2-user"
     password = "DevOps321"
     host     = module.backend.private_ip
+    port     = 22
   }
   provisioner "file" {
     source     = "${var.common_tags.Component}.sh"
@@ -64,8 +65,7 @@ resource "null_resource" "backend_delete" {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    #host     = module.backend.private_ip
-    host     = self.public_ip
+    host     = module.backend.private_ip
     port     = 22
   }
    provisioner "local-exec" {
