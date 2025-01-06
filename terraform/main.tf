@@ -24,14 +24,15 @@ resource "null_resource" "backend" {
   triggers = {
     instance_id = module.backend.id # this will be triggered everytime instance is created
   }
-  connection {
-    type     = "ssh"
-    user     = "ec2-user"
-    password = "DevOps321"
-    host     = module.backend.private_ip
-    port     = 22
-  }
+
   provisioner "file" {
+    connection {
+        type     = "ssh"
+        user     = "ec2-user"
+        password = "DevOps321"
+        host     = module.backend.private_ip
+        port     = 22
+    }
     source     = "${var.common_tags.Component}.sh"
     destination = "/tmp/${var.common_tags.Component}.sh"
   }
