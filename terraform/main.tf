@@ -37,7 +37,7 @@ resource "null_resource" "backend" {
   }
    provisioner "remote-exec" {
     inline = [
-      "sudo chmod +x /tmp/${var.common_tags.Component}.sh",
+      "chmod +x /tmp/${var.common_tags.Component}.sh",
       "sudo sh /tmp/${var.common_tags.Component}.sh  ${var.common_tags.Component} ${var.environment} ${var.app_version}"
      ]
   }
@@ -45,14 +45,13 @@ resource "null_resource" "backend" {
 resource "aws_ec2_instance_state" "backend" {
   instance_id = module.backend.id
   state       = "stopped"
-  #stop the server only when null resource provisioning is completed.connection {
-    depends_on = [ null_resource.backend ]
+  #stop the server only when null resource provisioning is completed.
+  depends_on = [ null_resource.backend ]
   }
 
 resource "aws_ami_from_instance" "backend" {
   name               ="${var.project_name}-${var.environment}-${var.common_tags.Component}"
   source_instance_id = module.backend.id
-  snapshot_without_reboot = false
   depends_on         = [ aws_ec2_instance_state.backend ]
 }
 
@@ -143,7 +142,7 @@ resource "aws_autoscaling_group" "backend" {
   }
 
   tag {
-    key                 = "project"
+    key                 = "Project"
     value               = "${var.project_name}"
     propagate_at_launch = false
   }
