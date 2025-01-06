@@ -24,18 +24,18 @@ resource "null_resource" "backend" {
   triggers = {
     instance_id = module.backend.id # this will be triggered everytime instance is created
   }
-    connection {
+  connection {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
     host     = module.backend.private_ip
   }
-    provisioner "file" {
-    source     = "${path.module}/${var.common_tags.Component}.sh"
+  provisioner "file" {
+    source     = "${var.common_tags.Component}.sh"
     destination = "/tmp/${var.common_tags.Component}.sh"
   }
   
-   provisioner "remote-exec" {
+  provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/${var.common_tags.Component}.sh",
       "sudo sh /tmp/${var.common_tags.Component}.sh  ${var.common_tags.Component} ${var.environment} ${var.app_version}"
@@ -64,7 +64,9 @@ resource "null_resource" "backend_delete" {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    host     = module.backend.private_ip
+    #host     = module.backend.private_ip
+    host     = self.public_ip
+    port     = 22
   }
    provisioner "local-exec" {
     command = "aws ec2 terminate-instances --instance-ids ${module.backend.id}"
