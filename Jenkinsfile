@@ -10,7 +10,10 @@ pipeline {
     }
      parameters {
        string(name: 'appVersion', defaultValue: '1.2.0', description: 'What is the application version?')
+     
+       choice (name: ‘action', choices: ['Apply’, ‘Destroy'], description: 'Pick something'
      }
+
     environment {
         def appVersion = '' //variable declaration here.
         nexusURl = 'nexus.lingaiah.online:8081'
@@ -32,6 +35,12 @@ pipeline {
               }
            }
          stage('Plan') {
+
+           when {
+                expression {
+                  params.action =='Apply’'
+                  }
+                }
             steps {
                 sh """
                   cd terraform
@@ -41,6 +50,11 @@ pipeline {
               }
          }
          stage('Deploy') {
+             when {
+                expression {
+                  params.action =='Apply’'
+                  }
+                }
             steps {
                 sh """
                   cd terraform
@@ -49,6 +63,20 @@ pipeline {
                 """
               }
          }
+         stage('Destroy') {
+                when {
+                expression {
+                  params.action =='Destroy'
+                  }
+                }
+                steps {
+                sh """
+                cd terraform
+                terraform destroy -auto-approve -var="app_version=${params.appVersion}
+                """
+                }
+             }
+
     }
       
      post { 
