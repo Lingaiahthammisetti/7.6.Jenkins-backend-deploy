@@ -11,7 +11,8 @@ pipeline {
      parameters {
        string(name: 'appVersion', defaultValue: '1.2.0', description: 'What is the application version?')
      
-       choice (name: ‘action', choices: ['Apply’, ‘Destroy'], description: 'Pick something'
+       choice(name: 'action', choices: ['Apply', 'Destroy'], description: 'Pick something')
+
      }
 
     environment {
