@@ -28,6 +28,11 @@ pipeline {
             }
         }
          stage('Init') {
+             when {
+                expression {
+                  params.action =='Apply’'
+                  }
+                }
             steps {
                 sh """
                   cd terraform
