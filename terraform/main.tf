@@ -7,7 +7,6 @@ module "backend" {
     vpc_security_group_ids = [data.aws_ssm_parameter.backend_sg_id.value]
 
     #Convert StringList to list and get first element
-    #subnet_id = element(split(",",data.aws_ssm_parameter.public_subnet_ids.value),0)
     subnet_id = local.private_subnet_id
 
     #user_data = file("bastion.sh")
@@ -31,7 +30,6 @@ resource "null_resource" "backend" {
         host     = module.backend.private_ip
     }  
   provisioner "file" {
-
     source     = "${var.common_tags.Component}.sh"
     destination = "/tmp/${var.common_tags.Component}.sh"
   }
@@ -66,7 +64,7 @@ resource "null_resource" "backend_delete" {
     user     = "ec2-user"
     password = "DevOps321"
     host     = module.backend.private_ip
-    port     = 22
+    #port     = 22
   }
    provisioner "local-exec" {
     command = "aws ec2 terminate-instances --instance-ids ${module.backend.id}"
